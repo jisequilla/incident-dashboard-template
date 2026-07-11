@@ -46,9 +46,15 @@ const PRES = {
 /* ─────────────────────────────────────────────────────────────────────── */
 
 const DAYS = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+// Siempre en Europe/Madrid: el proyector corre también en runners UTC (GitHub Actions)
 function deriveLabel(iso) {
-  const d = new Date(iso);
-  return `${DAYS[d.getDay()]} ${d.getDate()} · ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  const f = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit',
+  }).format(new Date(iso));
+  const [datePart, timePart] = f.split(' ');
+  const dayIdx = new Date(datePart + 'T12:00:00Z').getUTCDay();
+  return `${DAYS[dayIdx]} ${+datePart.slice(8, 10)} · ${timePart}`;
 }
 
 function nowMadrid() {
