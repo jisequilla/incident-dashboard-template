@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Dashboard · Mapa</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<style>
+  :root{--ash:#1a1614;--ember:#e8531f;--ember-deep:#b3350a;--smoke:#6b6560;--safe:#1f8a5b;--safe-bg:rgba(31,138,91,.14);--water:#2a6f97;--paper:#f6f2ec;--line:#d8cfc2;--warn:#c9971a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:"Inter","Segoe UI",system-ui,sans-serif;background:var(--paper);color:var(--ash);display:flex;flex-direction:column;height:100vh}
+  header{padding:14px 18px 12px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,var(--paper))}
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ember-deep);font-weight:700;margin-bottom:3px}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:21px;font-weight:700;line-height:1.1;letter-spacing:-.01em}
+  h1 span{color:var(--smoke);font-weight:400}
+  .sub{font-size:12.5px;color:var(--smoke);margin-top:4px}
+  .notice{font-size:11.5px;color:#a5780f;background:rgba(201,151,26,.12);padding:6px 9px;border-radius:6px;margin-top:8px;line-height:1.4}
+  .status-pill{display:inline-flex;align-items:center;gap:6px;background:var(--safe-bg);color:var(--safe);font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;margin-top:8px}
+  .status-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--safe);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .updated-line{font-size:11px;color:var(--smoke);margin-top:6px}
+  .updated-line a{color:var(--water);font-weight:600;text-decoration:none}
+  #loadError{display:none;font-size:11.5px;color:var(--ember-deep);background:rgba(179,53,10,.1);padding:6px 9px;border-radius:6px;margin-top:8px}
+  .layerbar{display:flex;gap:6px;padding:8px 14px 0;flex-wrap:wrap}
+  .layerbar button{font:inherit;font-size:11.5px;font-weight:600;padding:5px 11px;border:1px solid var(--line);background:#fff;color:var(--smoke);border-radius:20px;cursor:pointer}
+  .layerbar button.active{background:var(--ash);color:#fff;border-color:var(--ash)}
+  #map{flex:1;width:100%;z-index:1;min-height:220px}
+  .panel{border-top:1px solid var(--line);background:#fff;padding:10px 14px 14px;max-height:40vh;overflow-y:auto}
+  .timeline-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--smoke);font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .slider-wrap{padding:2px 2px 10px}
+  input[type=range]{width:100%;height:5px;border-radius:5px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,var(--warn),var(--ember),var(--ember-deep));outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--ember);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--ember);cursor:pointer}
+  .phase-title{font-weight:700;font-size:14px;margin:2px 0 3px}
+  .phase-time{font-size:11.5px;color:var(--ember-deep);font-weight:600}
+  .phase-desc{font-size:12.5px;color:#443d38;line-height:1.45;margin-top:4px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+  .legend div{display:flex;align-items:center;gap:6px;font-size:11.5px;color:#443d38}
+  .swatch{width:13px;height:13px;border-radius:3px;flex:none}
+  .links{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:7px}
+  .links a{font-size:12.5px;font-weight:600;color:var(--water);text-decoration:none;display:flex;align-items:center;gap:7px}
+  .links a:before{content:"↗";font-size:13px;color:var(--smoke)}
+  .leaflet-popup-content{font-family:inherit;font-size:12.5px;line-height:1.4;margin:10px 12px}
+  .leaflet-popup-content b{font-size:13px}
+  .leaflet-popup-content a{color:var(--water);font-weight:600}
+  .disclaimer{font-size:10.5px;color:var(--smoke);margin-top:11px;line-height:1.4}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow" id="eyebrow"></div>
+  <h1 id="mapTitle"></h1>
+  <div class="sub" id="sub"></div>
+  <div class="notice" id="notice" style="display:none"></div>
+  <div class="status-pill"><span class="dot"></span> <span id="pillText"></span></div>
+  <div class="updated-line"><span id="updatedStamp">Cargando…</span> · <a href="./index.html">Ver cronología ↗</a> · <a id="hashtagLink" target="_blank" style="display:none"></a></div>
+  <div id="loadError">No se pudieron cargar los datos (<code>data/incident.json</code>). En local, sirve la carpeta con <code>python3 -m http.server</code>.</div>
+</header>
+
+<div class="layerbar">
+  <button id="btnStreets" class="active">Mapa</button>
+  <button id="btnSat">Satélite</button>
+  <button id="btnTerrain">Relieve</button>
+</div>
+
+<div id="map"></div>
+
+<div class="panel">
+  <div class="timeline-label"><span>Evolución del incendio</span><span id="phaseCount"></span></div>
+  <div class="slider-wrap"><input type="range" id="slider" min="0" max="3" value="3" step="1"></div>
+  <div class="phase-time" id="pTime"></div>
+  <div class="phase-title" id="pTitle"></div>
+  <div class="phase-desc" id="pDesc"></div>
+
+  <div class="legend" id="legend"></div>
+  <div class="links" id="links"></div>
+  <div class="disclaimer" id="mapDisclaimer"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="./assets/app.js"></script>
+<script>
+let map = null, streets, sat, terrain;
+let overlayGroup = [], fireCircles = [], evacZone = null, phases = [], evacFromPhase = 1;
+let copernicusLayers = [];
+let firmsLayer = null;
+let firstRender = true;
+
+function initMap(m) {
+  map = L.map('map', { zoomControl: true, scrollWheelZoom: true }).setView(m.center, m.zoom);
+  streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap © CARTO', maxZoom: 19 });
+  sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '© Esri, Maxar, Earthstar Geographics', maxZoom: 19 });
+  terrain = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap (CC-BY-SA)', maxZoom: 17 });
+  streets.addTo(map);
+  function setLayer(active) {
+    [streets, sat, terrain].forEach(l => map.removeLayer(l));
+    active.addTo(map);
+    overlayGroup.forEach(l => l.bringToFront && l.bringToFront());
+  }
+  function setActive(btn) {
+    document.querySelectorAll('.layerbar button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  document.getElementById('btnStreets').onclick = e => { setLayer(streets); setActive(e.target); };
+  document.getElementById('btnSat').onclick = e => { setLayer(sat); setActive(e.target); };
+  document.getElementById('btnTerrain').onclick = e => { setLayer(terrain); setActive(e.target); };
+  document.getElementById('slider').addEventListener('input', e => renderPhase(+e.target.value));
+}
+
+function gmap(lat, lng) { return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`; }
+
+async function renderCopernicus(cfg) {
+  copernicusLayers.forEach(l => map.removeLayer(l));
+  copernicusLayers = [];
+  if (!cfg) return;
+  try {
+    const [area, lines] = await Promise.all([
+      fetch(cfg.areaUrl).then(r => r.json()),
+      fetch(cfg.linesUrl).then(r => r.json())
+    ]);
+    const burnt = L.geoJSON(area, {
+      style: { color: '#7a1200', weight: 2, fillColor: '#7a1200', fillOpacity: .32 },
+      onEachFeature: (f, layer) => layer.bindPopup(
+        `<b>Área quemada (Copernicus EMSR892)</b><br>${(f.properties.area || 0).toFixed(1)} ha · ${f.properties.det_method}<br>Imagen Sentinel-2 · ${cfg.acquiredLabel}`
+      )
+    }).addTo(map);
+    const fronts = L.geoJSON(lines, {
+      style: { color: '#ff2d00', weight: 4, opacity: .95 },
+      onEachFeature: (f, layer) => layer.bindPopup(
+        `<b>Frente de fuego (Copernicus EMSR892)</b><br>${f.properties.det_method}<br>Imagen Sentinel-2 · ${cfg.acquiredLabel}`
+      )
+    }).addTo(map);
+    copernicusLayers = [burnt, fronts];
+    overlayGroup.push(burnt, fronts);
+  } catch (e) {
+    console.error('No se pudo cargar la capa Copernicus:', e);
+  }
+}
+
+function firmsStyle(props) {
+  const ageH = (Date.now() - new Date(props.acquiredUtc)) / 3600e3;
+  const color = ageH < 6 ? '#ff0000' : ageH < 12 ? '#ff7a00' : '#8a7a6c';
+  const radius = Math.min(3 + Math.sqrt(props.frp || 1), 10);
+  return { radius, color, weight: 1, fillColor: color, fillOpacity: .55 };
+}
+
+async function renderFirms(cfg) {
+  if (firmsLayer) { map.removeLayer(firmsLayer); firmsLayer = null; }
+  if (!cfg) return;
+  try {
+    const data = await fetch(`${cfg.url}?t=${Date.now()}`).then(r => r.json());
+    firmsLayer = L.geoJSON(data, {
+      pointToLayer: (f, latlng) => L.circleMarker(latlng, firmsStyle(f.properties)),
+      onEachFeature: (f, layer) => {
+        const p = f.properties;
+        const local = new Date(p.acquiredUtc).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+        layer.bindPopup(`<b>Foco de calor · ${p.source}</b><br>${local} CEST · FRP ${p.frp ?? '?'} MW<br>Confianza: ${p.confidence} · ${cfg.attribution}`);
+      }
+    }).addTo(map);
+    overlayGroup.push(firmsLayer);
+  } catch (e) {
+    console.error('No se pudo cargar la capa FIRMS:', e);
+  }
+}
+
+function renderPhase(i) {
+  fireCircles.forEach((f, idx) => { idx <= i ? f.addTo(map) : map.removeLayer(f); });
+  if (evacZone) { i >= evacFromPhase ? evacZone.addTo(map) : map.removeLayer(evacZone); }
+  const p = phases[i];
+  if (!p) return;
+  document.getElementById('pTime').textContent = p.t;
+  document.getElementById('pTitle').textContent = p.ti;
+  document.getElementById('pDesc').textContent = p.d;
+  document.getElementById('phaseCount').textContent = `Fase ${i + 1} / ${phases.length}`;
+}
+
+function render(data) {
+  const m = data.map;
+  if (!map) initMap(m);
+
+  // Limpiar overlays anteriores y reconstruir desde el JSON
+  overlayGroup.forEach(l => map.removeLayer(l));
+  fireCircles.forEach(l => map.removeLayer(l));
+  if (evacZone) map.removeLayer(evacZone);
+  overlayGroup = []; fireCircles = [];
+
+  document.getElementById('eyebrow').textContent = m.eyebrow;
+  document.getElementById('mapTitle').innerHTML = `${data.meta.title} <span>· mapa real</span>`;
+  document.getElementById('sub').textContent = m.sub;
+  const notice = document.getElementById('notice');
+  if (m.noticeHtml) { notice.innerHTML = m.noticeHtml; notice.style.display = 'block'; }
+  else { notice.style.display = 'none'; }
+  document.getElementById('pillText').textContent = m.statusPill;
+  document.getElementById('mapDisclaimer').textContent = m.disclaimer;
+  document.title = `Incendio ${data.meta.title} · Mapa real${data.meta.hashtag ? ` · ${data.meta.hashtag}` : ''}`;
+  const ht = document.getElementById('hashtagLink');
+  if (data.meta.hashtag) {
+    ht.textContent = `${data.meta.hashtag} en X ↗`;
+    ht.href = data.meta.hashtagUrl;
+    ht.style.display = 'inline';
+  }
+
+  m.markers.forEach(mk => {
+    const icon = L.divIcon({ className: '', html: `<div style="background:${mk.color};width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>`, iconSize: [16, 16], iconAnchor: [8, 8] });
+    const marker = L.marker([mk.lat, mk.lng], { icon }).addTo(map)
+      .bindPopup(`<b>${mk.label}</b><br>${mk.popup}<br><a href="${gmap(mk.lat, mk.lng)}" target="_blank">Abrir en Google Maps ↗</a>`);
+    overlayGroup.push(marker);
+  });
+
+  const route = L.polyline(m.route.coords, { color: m.route.color, weight: 5, opacity: .9, dashArray: '1,10', lineCap: 'round' })
+    .addTo(map).bindPopup(m.route.popup);
+  overlayGroup.push(route);
+
+  m.closures.forEach(c => {
+    const opts = { color: c.color, weight: 6, opacity: .9 };
+    if (c.dashArray) opts.dashArray = c.dashArray;
+    const line = L.polyline(c.coords, opts).addTo(map).bindPopup(c.popup);
+    overlayGroup.push(line);
+  });
+
+  phases = m.firePhases.map(p => ({ t: p.t, ti: p.ti, d: p.d }));
+  // Con la capa oficial de Copernicus activa, las fases aproximadas pasan a segundo plano visual
+  const approxFade = m.copernicus ? 0.4 : 1;
+  fireCircles = m.firePhases.map(p =>
+    L.circle([p.circle.lat, p.circle.lng], { radius: p.circle.radiusM, color: '#e8531f', weight: m.copernicus ? 1 : 2, fillColor: '#e8531f', fillOpacity: (p.circle.fillOpacity ?? .25) * approxFade })
+  );
+  evacZone = L.polygon(m.evacZone.coords, { color: '#b3350a', weight: 1.5, fillColor: '#b3350a', fillOpacity: .12, dashArray: '4,4' });
+  evacFromPhase = m.evacZone.fromPhase ?? 1;
+
+  const slider = document.getElementById('slider');
+  slider.max = phases.length - 1;
+  if (firstRender) slider.value = slider.max;
+  renderPhase(Math.min(+slider.value, phases.length - 1));
+
+  document.getElementById('legend').innerHTML = m.legend.map(l =>
+    `<div><span class="swatch" style="background:${l.color}"></span> ${l.label}</div>`
+  ).join('');
+
+  document.getElementById('links').innerHTML = m.links.map(l =>
+    `<a href="${l.url}" target="_blank">${l.label}</a>`
+  ).join('');
+
+  renderCopernicus(m.copernicus);
+  renderFirms(m.firms);
+
+  if (firstRender) {
+    map.fitBounds(L.latLngBounds(m.fitBounds).pad(0.25));
+    firstRender = false;
+  }
+}
+
+startIncident(render);
+</script>
+</body>
+</html>

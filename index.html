@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Dashboard</title>
+<style>
+  :root{
+    --ash:#171310;--ember:#e8531f;--ember-deep:#b3350a;--smoke:#736b64;
+    --safe:#1f8a5b;--warn:#c9971a;--warn-deep:#a5780f;--water:#2a6f97;
+    --paper:#f4efe8;--card:#fffdfa;--line:#e2d9cc;--line-strong:#cdbfad;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Inter","Segoe UI",system-ui,sans-serif;background:var(--paper);color:var(--ash);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 60px}
+
+  /* Header */
+  header{padding:22px 0 16px;border-bottom:2px solid var(--ash);margin-bottom:4px}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ember-deep);font-weight:800;display:flex;align-items:center;gap:8px}
+  .kicker:before{content:"";width:26px;height:3px;background:var(--ember);display:inline-block}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:30px;line-height:1.06;letter-spacing:-.015em;margin:8px 0 6px;font-weight:700}
+  h1 em{font-style:normal;color:var(--smoke);font-weight:400}
+  .dek{font-size:13.5px;color:var(--smoke);max-width:60ch}
+  .updated{font-size:11.5px;color:var(--smoke);margin-top:12px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .live{display:inline-flex;align-items:center;gap:6px;background:rgba(201,151,26,.15);color:var(--warn-deep);font-weight:700;font-size:11px;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em}
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--warn);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .maplink{font-size:11.5px;font-weight:700;color:var(--water);text-decoration:none}
+  #loadError{display:none;background:rgba(179,53,10,.1);border:1px solid var(--ember-deep);border-radius:8px;padding:10px 13px;font-size:12.5px;color:var(--ember-deep);margin-top:14px}
+
+  /* Stat strip */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0 8px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 12px 11px}
+  .stat .n{font-family:Georgia,serif;font-size:26px;font-weight:700;line-height:1}
+  .stat .l{font-size:10.5px;color:var(--smoke);text-transform:uppercase;letter-spacing:.06em;margin-top:5px;font-weight:600}
+  .stat.fatal .n{color:var(--ember-deep)}
+  .stat.wind .n{color:var(--warn-deep)}
+  .stat.crew .n{color:var(--water)}
+  @media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  /* Status banner */
+  .banner{background:linear-gradient(100deg,rgba(201,151,26,.14),rgba(232,83,31,.08));border:1px solid var(--warn);border-left:4px solid var(--warn);border-radius:9px;padding:13px 15px;margin:16px 0 6px}
+  .banner b{color:var(--warn-deep)}
+  .banner .t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--warn-deep);font-weight:800;margin-bottom:4px}
+  .banner p{font-size:13px}
+
+  /* Section titles */
+  .sec{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke);font-weight:800;margin:34px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line-strong);display:flex;justify-content:space-between;align-items:baseline}
+  .sec span{font-size:11px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--smoke)}
+
+  /* Timeline */
+  .tl{position:relative;padding-left:26px}
+  .tl:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--warn),var(--ember),var(--ember-deep))}
+  .ev{position:relative;padding:0 0 22px}
+  .ev:before{content:"";position:absolute;left:-26px;top:3px;width:13px;height:13px;border-radius:50%;background:var(--card);border:3px solid var(--ember);z-index:1}
+  .ev.origin:before{border-color:var(--ember-deep);background:var(--ember-deep)}
+  .ev.escalate:before{border-color:var(--warn)}
+  .ev.fatal:before{border-color:var(--ember-deep);background:var(--ember-deep);box-shadow:0 0 0 4px rgba(179,53,10,.15)}
+  .ev.now:before{border-color:var(--warn);background:var(--warn);animation:pulse 1.8s infinite}
+  .ev .time{font-size:11.5px;font-weight:700;color:var(--ember-deep);letter-spacing:.02em}
+  .ev.escalate .time{color:var(--warn-deep)}
+  .ev .head{font-size:15px;font-weight:700;margin:2px 0 4px;letter-spacing:-.01em}
+  .ev .body{font-size:13px;color:#3c352f}
+  .ev .src{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px}
+  .ev .src a{font-size:11px;font-weight:600;color:var(--water);text-decoration:none;background:rgba(42,111,151,.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(42,111,151,.2)}
+  .ev .src a:before{content:"↗ "}
+  .ev .src a:hover{background:rgba(42,111,151,.16)}
+  .obs{display:inline-block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:5px;background:rgba(42,111,151,.12);color:var(--water);margin-left:6px;vertical-align:1px}
+
+  /* Zones list */
+  .zones{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  @media(max-width:560px){.zones{grid-template-columns:1fr}}
+  .zone{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13px}
+  .zone.evac{border-left:3px solid var(--ember-deep)}
+  .zone.safe{border-left:3px solid var(--safe)}
+  .zone.warn{border-left:3px solid var(--warn)}
+  .zone .zt{font-weight:700;display:flex;align-items:center;gap:7px}
+  .zone .zs{font-size:11.5px;color:var(--smoke);margin-top:2px}
+  .tag{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:5px}
+  .tag.e{background:rgba(179,53,10,.13);color:var(--ember-deep)}
+  .tag.s{background:rgba(31,138,91,.14);color:var(--safe)}
+  .tag.w{background:rgba(201,151,26,.15);color:var(--warn-deep)}
+
+  /* Contacts */
+  .contacts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  @media(max-width:560px){.contacts{grid-template-columns:1fr}}
+  .contact{background:var(--ash);color:#f4efe8;border-radius:9px;padding:12px 14px;text-decoration:none;display:block}
+  .contact .cl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#b8aca0;font-weight:600}
+  .contact .cn{font-family:Georgia,serif;font-size:22px;font-weight:700;margin-top:3px}
+  .contact .cd{font-size:11.5px;color:#c9beb2;margin-top:2px}
+
+  /* Guía de autoprotección */
+  details.guide{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--water);border-radius:9px;margin-bottom:9px;padding:0}
+  details.guide summary{cursor:pointer;font-weight:700;font-size:13.5px;padding:11px 13px;list-style:none;display:flex;align-items:center;gap:8px}
+  details.guide summary::before{content:"▸";color:var(--water);transition:transform .15s}
+  details.guide[open] summary::before{transform:rotate(90deg)}
+  details.guide .gbody{padding:0 14px 6px;font-size:13px;color:#3c352f}
+  details.guide .gbody p{margin:0 0 8px}
+  details.guide .gbody ul{margin:0 0 8px 18px}
+  details.guide .gbody li{margin-bottom:4px}
+  details.guide .gsrc{padding:0 14px 12px;display:flex;flex-wrap:wrap;gap:6px}
+  details.guide .gsrc a{font-size:11px;font-weight:600;color:var(--water);text-decoration:none;background:rgba(42,111,151,.09);padding:3px 9px;border-radius:20px;border:1px solid rgba(42,111,151,.2)}
+  details.guide .gsrc a:before{content:"↗ "}
+  /* Línea AEMET (dato crudo) */
+  .aemet-line{font-size:11.5px;color:var(--smoke);margin-top:8px;padding:7px 10px;background:rgba(42,111,151,.06);border-radius:6px}
+  .aemet-line b{color:var(--water)}
+
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line-strong);font-size:11px;color:var(--smoke);line-height:1.5}
+  .disc{background:rgba(232,83,31,.06);border:1px solid var(--line);border-radius:8px;padding:11px 13px;font-size:11.5px;color:#5c544c;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker" id="kicker"></div>
+    <h1 id="title"></h1>
+    <div class="dek" id="dek"></div>
+    <div class="updated">
+      <span class="live"><span class="dot"></span><span id="liveLabel">En seguimiento</span></span>
+      <span id="updatedStamp">Cargando…</span>
+      <a class="maplink" href="./map.html">Ver mapa ↗</a>
+      <a class="maplink" id="hashtagLink" target="_blank" style="display:none"></a>
+    </div>
+    <div id="loadError">No se pudieron cargar los datos (<code>data/incident.json</code>). Si abres el fichero en local, sírvelo con <code>python3 -m http.server</code> — <code>fetch</code> no funciona sobre <code>file://</code>.</div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+  <div id="banners"></div>
+
+  <div class="sec">Cronología <span>hora local (CEST)</span></div>
+  <div class="tl" id="timeline"></div>
+
+  <div class="sec">Zonas <span>estado por localidad</span></div>
+  <div class="zones" id="zones"></div>
+
+  <div class="sec">Cortes de carretera</div>
+  <div class="zones" id="closures"></div>
+
+  <div class="sec" id="riskSec"></div>
+  <div id="riskWindow"></div>
+
+  <div class="sec" id="adviceSec"></div>
+  <div id="advice"></div>
+
+  <div class="sec" id="guideSec"></div>
+  <div id="guides"></div>
+
+  <div class="sec">Fuentes oficiales en directo <span>síguelas en X</span></div>
+  <div class="zones" id="accounts"></div>
+
+  <div class="sec">Páginas oficiales <span>cartografía y estado en vivo</span></div>
+  <div class="zones" id="officialPages"></div>
+
+  <div class="sec">Contactos de emergencia</div>
+  <div class="contacts" id="contacts"></div>
+
+  <footer id="footerBox"></footer>
+</div>
+
+<script src="./assets/app.js"></script>
+<script>
+function render(data) {
+  const $ = id => document.getElementById(id);
+
+  $('kicker').textContent = data.meta.kicker;
+  $('title').innerHTML = `${data.meta.title} <em>${data.meta.titleSuffix}</em>`;
+  $('dek').textContent = data.meta.dek;
+  $('liveLabel').textContent = data.meta.liveLabel;
+
+  $('stats').innerHTML = data.stats.map(s =>
+    `<div class="stat ${s.cls}"><div class="n">${s.n}</div><div class="l">${s.l}</div></div>`
+  ).join('');
+
+  $('banners').innerHTML = data.banners.map(bannerHtml).join('');
+
+  const events = [...data.timeline].sort((a, b) => new Date(a.time) - new Date(b.time));
+  $('timeline').innerHTML = events.map(ev => {
+    const cls = ['ev', ev.kind, ev.current ? 'now' : ''].filter(Boolean).join(' ');
+    const timeLabel = ev.timeLabel + (ev.current ? ' · AHORA' : '');
+    const obs = ev.observation ? '<span class="obs">incluye observación propia</span>' : '';
+    const src = (ev.sources || []).map(s =>
+      s.url ? `<a href="${s.url}" target="_blank">${s.name}</a>` : `<span>${s.name}</span>`
+    ).join('');
+    return `<div class="${cls}">
+      <div class="time">${timeLabel}</div>
+      <div class="head">${ev.title}${obs}</div>
+      <div class="body">${ev.html}</div>
+      ${src ? `<div class="src">${src}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  $('zones').innerHTML = data.zones.map(z =>
+    `<div class="zone ${z.cls}"><div class="zt"><span class="tag ${z.tagTone}">${z.tag}</span></div><div class="zs" style="margin-top:6px">${z.html}</div></div>`
+  ).join('');
+
+  $('closures').innerHTML = data.roadClosures.map(c =>
+    `<div class="zone evac"><div class="zs">${c.html}</div></div>`
+  ).join('');
+
+  $('riskSec').innerHTML = `${data.riskWindow.secTitle} <span>${data.riskWindow.secNote}</span>`;
+  let riskHtml = bannerHtml(data.riskWindow);
+  if (data.riskWindow.aemet) {
+    const a = data.riskWindow.aemet;
+    riskHtml += `<div class="aemet-line">📡 <b>AEMET ${a.municipio}</b> (dato automático): ${a.resumen} · ${timeAgo(a.fetchedAtUtc)}</div>`;
+  }
+  $('riskWindow').innerHTML = riskHtml;
+
+  $('adviceSec').innerHTML = `${data.advice.secTitle} <span>${data.advice.secNote}</span>`;
+  $('advice').innerHTML = bannerHtml(data.advice);
+
+  $('accounts').innerHTML = data.officialAccounts.map(a =>
+    `<a class="zone safe" style="text-decoration:none;color:inherit" href="${a.url}" target="_blank"><div class="zt">${a.name} ↗</div><div class="zs">${a.desc}</div></a>`
+  ).join('');
+
+  $('guideSec').innerHTML = data.guideSec ? `${data.guideSec.title} <span>${data.guideSec.note}</span>` : '';
+  $('guides').innerHTML = (data.guide || []).map(g => {
+    const src = g.sources.map(s => s.url ? `<a href="${s.url}" target="_blank">${s.name}</a>` : `<span>${s.name}</span>`).join('');
+    return `<details class="guide"><summary>${g.title}</summary><div class="gbody">${g.html}</div><div class="gsrc">${src}</div></details>`;
+  }).join('');
+
+  $('officialPages').innerHTML = (data.officialPages || []).map(p =>
+    `<a class="zone safe" style="text-decoration:none;color:inherit" href="${p.url}" target="_blank"><div class="zt">${p.name} ↗</div><div class="zs">${p.desc}</div></a>`
+  ).join('');
+
+  $('contacts').innerHTML = data.contacts.map(c =>
+    `<a class="contact" href="tel:${c.tel}"><div class="cl">${c.label}</div><div class="cn">${c.number}</div><div class="cd">${c.desc}</div></a>`
+  ).join('');
+
+  $('footerBox').innerHTML = `${data.footer.sourcesHtml}<div class="disc">${data.footer.disclaimerHtml}</div>`;
+
+  document.title = `${data.meta.title} · Incident Report${data.meta.hashtag ? ` · ${data.meta.hashtag}` : ''}`;
+  const ht = $('hashtagLink');
+  if (data.meta.hashtag) {
+    ht.textContent = `${data.meta.hashtag} en X ↗`;
+    ht.href = data.meta.hashtagUrl;
+    ht.style.display = 'inline';
+  }
+}
+
+startIncident(render);
+</script>
+</body>
+</html>

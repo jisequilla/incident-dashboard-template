@@ -1,0 +1,247 @@
+{
+  "meta": {
+    "updatedAt": "2026-07-11T15:49:39+02:00",
+    "incidentName": "Incidente de Ejemplo (sustituir)",
+    "startedAt": "2020-01-01T00:00:00+01:00",
+    "liveLabel": "En seguimiento",
+    "kicker": "Incident Report",
+    "title": "Incidente de Ejemplo",
+    "titleSuffix": "/ zona afectada",
+    "dek": "Seguimiento del incidente con cifras verificadas y enlaces a las fuentes originales de cada actualización.",
+    "hashtag": "#Incidente",
+    "hashtagUrl": "https://x.com/search?q=%23Incidente&f=live"
+  },
+  "stats": [
+    {
+      "n": "0",
+      "l": "Afectados",
+      "cls": "fatal"
+    }
+  ],
+  "banners": [
+    {
+      "tone": "warn",
+      "title": "↗ Situación de ejemplo — sustituir por el resumen real",
+      "html": "Texto del banner principal. <b>Sustituir</b> por el resumen real del incidente con sus fuentes; el campo `pill` alimenta la píldora del mapa."
+    }
+  ],
+  "timeline": [
+    {
+      "time": "2020-01-01T00:00:00+01:00",
+      "timeLabel": "MIÉ 1 · 00:00",
+      "kind": "origin",
+      "title": "Evento de ejemplo — el inicio del incidente",
+      "html": "Cuerpo del evento. <b>Sustituir</b>: cada afirmación con su fuente; hora jamás futura; imprecisión honesta con `time_precision`/`time_label`.",
+      "sources": [
+        {
+          "name": "Plantilla (sustituir por la fuente real con URL)",
+          "url": "https://example.org"
+        }
+      ],
+      "current": true
+    }
+  ],
+  "zones": [],
+  "roadClosures": [],
+  "riskWindow": {
+    "secTitle": "Previsión",
+    "secNote": "fuente de la previsión",
+    "tone": "safe",
+    "title": "🌬️ Previsión de ejemplo",
+    "html": "Cuerpo de la previsión. La anterior pasa a `status: superseded` cuando llegue una nueva con `supersedes`."
+  },
+  "advice": {
+    "secTitle": "Consejo oficial vigente",
+    "secNote": "autoridad competente",
+    "tone": "water",
+    "title": "🏠 Consejo oficial de ejemplo",
+    "html": "Texto del consejo oficial. Sustituir por el de la autoridad competente, con su fuente."
+  },
+  "guideSec": {
+    "title": "Guía de autoprotección",
+    "note": "fuentes oficiales (incendio forestal — sustituir si el incidente es otro)"
+  },
+  "guide": [
+    {
+      "title": "🏡 Prepara tu vivienda antes del fuego",
+      "html": "<p>Si vives en el monte o junto a él, la autoprotección se juega antes de que haya humo:</p><ul><li><b>Franja cortafuegos</b>: las normas oficiales piden mantener limpia de matorral y pasto una franja de <b>al menos 15 metros</b> alrededor de la urbanización.</li><li><b>Alrededor de tu vivienda</b>: aparta la vegetación y elementos combustibles a <b>más de 3 metros</b> de la fachada. La leña y otros acopios combustibles, a <b>más de 10 metros</b>.</li><li><b>Materiales</b>: evita construir o rematar con madera o plástico expuestos; evita setos de coníferas o cipreses, muy inflamables. Mantén el tejado limpio de hojarasca.</li><li><b>Cierres</b>: buen sellado de puertas y ventanas (persianas, doble cristal) — reduce la entrada de humo y calor si toca confinarse.</li><li><b>Medios propios</b>: ten a mano mangueras y extintores, y agua accesible en la propiedad.</li><li><b>Vías de salida</b>: en urbanizaciones, mantener al menos dos vías de evacuación despejadas y transitables — no aparques bloqueándolas.</li></ul><p>Si tu urbanización está en Zona de Peligro por incendio forestal (buena parte de los términos municipales del entorno lo están, por Decreto 371/2010), la comunidad tiene la <b>obligación legal</b> de contar con un Plan de Autoprotección por Incendios Forestales presentado ante el ayuntamiento. Pregunta si el tuyo lo tiene.</p><p>Las fuentes consultadas no detallan un \"plan familiar\" paso a paso más allá de estas medidas de vivienda — lo razonable es que cada casa decida quién cierra el gas y dónde reunirse si hay que salir, aunque eso no es una indicación oficial concreta.</p><p><b>Ante cualquier instrucción de la autoridad (112, Guardia Civil, Protección Civil), esa indicación manda sobre cualquier consejo de esta guía.</b></p>",
+      "sources": [
+        {
+          "name": "Junta de Andalucía (EMA) — Normas de autoprotección en interfaz urbano-forestal",
+          "url": "https://www.juntadeandalucia.es/organismos/ema/areas/incendios-forestales/prevencion/interfase/normas-autoproteccion.html"
+        },
+        {
+          "name": "Protección Civil Ayuntamiento de Málaga — Planes de Autoprotección por Incendios Forestales",
+          "url": "https://proteccioncivil.malaga.eu/pdflink/es/b912ac68-b5fd-11e5-8e51-7fb253176922/Incendios-forestales-Planes-de-Autoproteccion-por-Incendios-Forestales.pdf?themeconfigpath=/sites/proteccioncivil/.themeconfig"
+        }
+      ]
+    },
+    {
+      "title": "🎒 El kit que conviene tener a mano",
+      "html": "<p>La recomendación oficial de la Junta de Andalucía para cualquier emergencia es tener a mano estos cuatro elementos:</p><ul><li><b>Radio</b> (a pilas o cargada) — para seguir los avisos si falla la cobertura móvil o la luz.</li><li><b>Linterna</b>, con pilas de repuesto.</li><li><b>Botiquín</b> básico de primeros auxilios. Si quieres completarlo, el servicio de emergencias sanitarias SUMMA 112 recomienda como mínimo gasas estériles, antiséptico cutáneo, vendas elásticas, tijeras y algún vendaje triangular.</li><li><b>Documentación</b>: la que puedas reunir con rapidez.</li></ul><p>Si tienes medicación de uso diario, tenla localizada junto con estos cuatro elementos — es sentido común, aunque las fuentes oficiales consultadas no lo detallan como parte del kit.</p><p><b>Lo que NO confirma ninguna fuente oficial consultada para este bundle</b>: no hay una lista oficial andaluza que especifique agua embotellada, mascarillas, cargador de móvil o efectivo como parte de este kit para incendios forestales. Si decides añadirlos, es criterio propio y razonable — pero no lo presentes como indicación oficial.</p><p>Guarda el kit en un sitio fijo y conocido por todos en casa, para no tener que buscarlo si hay que salir con poco margen.</p><p><b>Ante cualquier instrucción de la autoridad, esa indicación manda sobre cualquier consejo de esta guía.</b></p>",
+      "sources": [
+        {
+          "name": "Junta de Andalucía — Qué hacer en situaciones de emergencia",
+          "url": "https://www.juntadeandalucia.es/temas/seguridad/emergencias/que-hacer.html"
+        },
+        {
+          "name": "SUMMA 112 (Comunidad de Madrid) — Qué llevar en un botiquín",
+          "url": "https://www.comunidad.madrid/hospital/summa112/ciudadanos/llevar-botiquin"
+        }
+      ]
+    },
+    {
+      "title": "🔥 Si el fuego te sorprende",
+      "html": "<p>El Plan de Emergencia por Incendios Forestales de Andalucía recoge estas medidas de autoprotección personal, según dónde te pille el fuego:</p><p><b>Si estás en una casa en el monte</b> y el fuego se acerca impidiendo huir: deja las mangueras abiertas dirigiendo el chorro hacia el tejado, cierra puertas, ventanas y persianas, y <b>permanece en la casa — es el sitio más seguro</b>. Solo si la situación se complica y decides salir, cúbrete la piel al máximo posible.</p><p><b>Si estás en un coche</b> rodeado por el fuego: no conduzcas a ciegas entre humo denso; enciende luces e intermitentes. Detente donde el suelo esté limpio, lo más lejos posible del avance del incendio. Cierra ventanillas y ventilación, échate en el suelo del coche cubierto con la alfombrilla, y permanece dentro todo el tiempo que puedas.</p><p><b>Si vas a pie por el monte</b>: evita zonas con mucho combustible o cuesta arriba del fuego; busca terreno desnudo o ya quemado; desplázate cortando la ladera hacia la cola del incendio, nunca cuesta arriba salvo que sepas que hay un sitio seguro. No cruces las llamas salvo que veas claramente qué hay detrás. Si te ves cercado, protégete tumbado tras una roca, un tronco o en una hondonada, cubierto de tierra; puedes refugiarte en una piscina o un arroyo (evita depósitos de agua elevados, se calientan).</p><p><b>Al aire libre en general</b>, aléjate hacia zonas despejadas, evita barrancos y laderas por donde el fuego avanza más rápido, y protege nariz y boca con un paño, mejor húmedo. Avisa siempre al 112.</p><p>El propio plan lo advierte: estas medidas <b>pueden ayudar pero no garantizan la supervivencia</b>. La única regla segura es evitar el fuego en el monte. <b>Ante cualquier instrucción de la autoridad, esa indicación manda sobre cualquier consejo de esta guía.</b></p>",
+      "sources": [
+        {
+          "name": "Plan de Emergencia por Incendios Forestales de Andalucía, Decreto 371/2010 (AAMAA), Anejo de Medidas de Autoprotección Personal",
+          "url": "https://www.aamaa.es/documentosnodescarga/plandeemergenciaincendiosforestalesandalucia.pdf"
+        },
+        {
+          "name": "Junta de Andalucía (EMA) — Incendios forestales, qué hacer",
+          "url": "https://www.juntadeandalucia.es/organismos/ema/areas/emergencias-112/incendios/incendios-forestales.html"
+        }
+      ]
+    },
+    {
+      "title": "🚗 Cómo evacuar de forma ordenada",
+      "html": "<p>La evacuación <b>no la decides tú solo</b>: la ordena el Director del Plan o el Alcalde del municipio afectado, y se comunica por megafonía, medios de comunicación (RNE-1, Canal Sur) o el 112. Es una medida distinta del confinamiento (quedarte en casa) o el alejamiento (moverte tú mismo a un sitio seguro cercano) — el plan andaluz las diferencia según el nivel de peligro.</p><p><b>Antes de salir, si hay tiempo:</b></p><ul><li>Cierra puertas, ventanas y las llaves de paso de gas y otros combustibles.</li><li>Tapa las rendijas y aberturas con paños húmedos.</li><li>Llena de agua la bañera y los fregaderos.</li></ul><p><b>Qué llevar</b>: prioriza tu kit ya preparado y la documentación. <b>Nunca arriesgues la vida por objetos personales</b> — es la advertencia explícita de los planes de autoprotección consultados.</p><p><b>Al circular</b>: deja siempre el paso libre a los vehículos de emergencia. Sigue las indicaciones de bomberos, Guardia Civil o Protección Civil en el punto de control — no improvises atajos ni vuelvas atrás por curiosidad. Si tienes vecinos mayores o con movilidad reducida, avísales antes de salir.</p><p>Los pasos concretos de \"antes de salir\" arriba proceden de guías de otras comunidades autónomas (Madrid, Castilla-La Mancha): ninguna fuente oficial andaluza consultada detalla ese checklist paso a paso, aunque el criterio (cerrar la casa, no arriesgarse por objetos) es coincidente entre todas.</p><p><b>Ante cualquier instrucción de la autoridad, esa indicación manda sobre cualquier consejo de esta guía — el 112 y quien dirija el operativo en el terreno tienen siempre la última palabra.</b></p>",
+      "sources": [
+        {
+          "name": "Plan de Emergencia por Incendios Forestales de Andalucía, Decreto 371/2010 (AAMAA)",
+          "url": "https://www.aamaa.es/documentosnodescarga/plandeemergenciaincendiosforestalesandalucia.pdf"
+        },
+        {
+          "name": "Junta de Andalucía (EMA) — Incendios forestales, qué hacer",
+          "url": "https://www.juntadeandalucia.es/organismos/ema/areas/emergencias-112/incendios/incendios-forestales.html"
+        },
+        {
+          "name": "Comunidad de Madrid — Emergencias 112, incendios forestales",
+          "url": "https://www.comunidad.madrid/seguridad-emergencias-asem-112/incendios-forestales"
+        },
+        {
+          "name": "INFOCAM (Castilla-La Mancha) — Cómo proteger una vivienda en caso de incendio forestal",
+          "url": "https://infocam.castillalamancha.es/noticias/como-proteger-una-vivienda-en-caso-de-incendio-forestal"
+        }
+      ]
+    },
+    {
+      "title": "🏠 El retorno, solo con autorización",
+      "html": "<p>La norma oficial es simple y no admite atajos: <b>no debe regresarse a las viviendas o áreas evacuadas hasta que se autorice oficialmente</b>. Ni porque el humo haya bajado, ni porque veas a otros volver por su cuenta.</p><p>Si estabas confinado en tu vivienda y el incendio ha pasado cerca, la propia norma de autoprotección lo dice así: <b>en caso de duda, permanece en la vivienda y espera instrucciones</b> — no salgas a comprobar el estado de la zona por iniciativa propia.</p><p>Al volver, ten cuidado especial con:</p><ul><li><b>Cables eléctricos sueltos o caídos</b> — riesgo de electrocución, evítalos y no los toques.</li><li>Estructuras, tejados o árboles que el fuego pueda haber debilitado, aunque no lo parezca a simple vista.</li></ul><p><b>Mantente informado por canales oficiales</b> (112, cuentas oficiales de Protección Civil y del ayuntamiento) y corta cualquier bulo o rumor que circule sobre la situación — sigue solo las indicaciones de las autoridades.</p><p>Las fuentes oficiales consultadas para este bundle no detallan procedimientos específicos sobre estructuras dañadas, agua de consumo o alimentos tras el paso del fuego. Si tienes dudas concretas sobre tu vivienda al volver, consúltalo con los servicios de emergencia en el momento, no lo des por hecho.</p><p><b>Ante cualquier instrucción de la autoridad, esa indicación manda sobre cualquier consejo de esta guía.</b></p>",
+      "sources": [
+        {
+          "name": "Junta de Andalucía (EMA) — Normas de autoprotección en interfaz urbano-forestal",
+          "url": "https://www.juntadeandalucia.es/organismos/ema/areas/incendios-forestales/prevencion/interfase/normas-autoproteccion.html"
+        },
+        {
+          "name": "Junta de Andalucía (EMA) — Incendios forestales, qué hacer",
+          "url": "https://www.juntadeandalucia.es/organismos/ema/areas/emergencias-112/incendios/incendios-forestales.html"
+        }
+      ]
+    }
+  ],
+  "officialAccounts": [
+    {
+      "name": "@CuentaOficial",
+      "url": "https://x.com/112",
+      "desc": "Cuenta oficial de ejemplo — sustituir por las del incidente (organismo de emergencias, autoridad local)."
+    }
+  ],
+  "contacts": [
+    {
+      "label": "Emergencias",
+      "number": "112",
+      "tel": "112",
+      "desc": "Teléfono único de emergencias — la fuente que manda para cualquier decisión real."
+    }
+  ],
+  "officialPages": [
+    {
+      "name": "Página oficial de ejemplo",
+      "url": "https://www.proteccioncivil.es",
+      "desc": "Página oficial verificada — regla EMSR671: abrir y confirmar que es de ESTE incidente antes de listarla."
+    }
+  ],
+  "footer": {
+    "sourcesHtml": "<b>Fuentes oficiales en directo:</b> completar con las del incidente.",
+    "disclaimerHtml": "⚠️ Este panel resume información de fuentes oficiales y prensa. <b>No sustituye a las instrucciones oficiales.</b> Ante cualquier decisión real: 112."
+  },
+  "map": {
+    "eyebrow": "Incidente · fecha",
+    "sub": "Mapa del incidente con las capas de datos superpuestas.",
+    "noticeHtml": null,
+    "statusPill": "Incidente de ejemplo · sustituir esta píldora",
+    "center": [
+      40.4168,
+      -3.7038
+    ],
+    "zoom": 12,
+    "fitBounds": [
+      [
+        40.4,
+        -3.72
+      ],
+      [
+        40.43,
+        -3.68
+      ]
+    ],
+    "markers": [
+      {
+        "lat": 40.4168,
+        "lng": -3.7038,
+        "color": "#2a6f97",
+        "label": "Punto de interés de ejemplo",
+        "popup": "Popup del marcador. `marker_type` decide el color en la proyección."
+      }
+    ],
+    "route": null,
+    "closures": [],
+    "firePhases": [],
+    "evacZone": null,
+    "links": [
+      {
+        "label": "Abrir la zona en Google Maps",
+        "url": "https://www.google.com/maps/@40.4168,-3.7038,12z"
+      }
+    ],
+    "legend": [
+      {
+        "color": "#e8531f",
+        "label": "Fases estimadas (aproximado)"
+      },
+      {
+        "color": "#b3350a",
+        "label": "Zona evacuada"
+      },
+      {
+        "color": "#c9971a",
+        "label": "Carretera cortada"
+      },
+      {
+        "color": "#1f8a5b",
+        "label": "Carretera reabierta"
+      },
+      {
+        "color": "#1f8a5b",
+        "label": "Tu zona / segura"
+      },
+      {
+        "color": "#2a6f97",
+        "label": "Ruta de evacuación"
+      },
+      {
+        "color": "#7a3fb0",
+        "label": "Punto de acogida"
+      },
+      {
+        "color": "#0f8a8a",
+        "label": "Hotel"
+      }
+    ],
+    "disclaimer": "Los datos aproximados están marcados como tales. Para decisiones reales sigue al 112 y a las autoridades competentes.",
+    "copernicus": null,
+    "firms": null
+  }
+}

@@ -1,0 +1,74 @@
+name: Ingesta satelital (cron)
+
+# Cada ~30 min (minutos 17 y 47, UTC): baja FIRMS y Copernicus, y solo si las
+# capas cambiaron de verdad, sella updatedAt, commitea y dispara el deploy.
+# El push con GITHUB_TOKEN no dispara workflows por sí solo, de ahí el
+# workflow_dispatch explícito sobre deploy.yml.
+
+on:
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Descargar capas satelitales y meteorología
+        env:
+          AEMET_API_KEY: ${{ secrets.AEMET_API_KEY }}
+        run: |
+          node scripts/fetch-firms.mjs
+          node scripts/fetch-copernicus.mjs
+          node scripts/fetch-aemet.mjs
+
+      - name: Detectar cambios reales en las capas
+        id: changes
+        run: |
+          # ficheros nuevos/cambiados en firms/copernicus, o cambio REAL en layers.json
+          # (ignorando los sellos fetchedAt*, que cambian en cada fetch aunque no haya datos nuevos)
+          LAYERS_CHANGED=$(node -e '
+            const { execSync } = require("child_process");
+            const strip = o => JSON.parse(JSON.stringify(o, (k, v) => /^fetchedAt/i.test(k) ? undefined : v));
+            const cur = strip(JSON.parse(require("fs").readFileSync("data/layers.json", "utf8")));
+            const base = strip(JSON.parse(execSync("git show HEAD:data/layers.json", { encoding: "utf8" })));
+            console.log(JSON.stringify(cur) === JSON.stringify(base) ? "no" : "yes");
+          ')
+          if [ -n "$(git status --porcelain -- data/firms data/copernicus)" ] || [ "$LAYERS_CHANGED" = "yes" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            # revertir el re-sellado de layers.json que hacen los fetch aunque no haya datos nuevos
+            git checkout -- data/layers.json
+          fi
+
+      - name: Proyectar, commitear y push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          node scripts/project-dashboard.mjs
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "Ingesta satelital automática (FIRMS/Copernicus)"
+          git pull --rebase origin main
+          git push
+
+      - name: Disparar deploy de Pages
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

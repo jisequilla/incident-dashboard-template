@@ -1,0 +1,54 @@
+{
+  "name": "Incidente de Ejemplo (sustituir)",
+  "shortTitle": "Incidente de Ejemplo",
+  "titleSuffix": "/ zona afectada",
+  "kicker": "Incident Report",
+  "dek": "Seguimiento del incidente con cifras verificadas y enlaces a las fuentes originales de cada actualización.",
+  "liveLabel": "En seguimiento",
+  "startedAt": "2020-01-01T00:00:00+01:00",
+  "hashtag": "#Incidente",
+  "hashtagUrl": "https://x.com/search?q=%23Incidente&f=live",
+  "panelUrl": "https://TU-USUARIO.github.io/TU-REPO/",
+  "map": {
+    "eyebrow": "Incidente · fecha",
+    "sub": "Mapa del incidente con las capas de datos superpuestas.",
+    "center": [40.4168, -3.7038],
+    "zoom": 12,
+    "fitBounds": [[40.40, -3.72], [40.43, -3.68]],
+    "links": [
+      { "label": "Abrir la zona en Google Maps", "url": "https://www.google.com/maps/@40.4168,-3.7038,12z" }
+    ],
+    "disclaimer": "Los datos aproximados están marcados como tales. Para decisiones reales sigue al 112 y a las autoridades competentes."
+  },
+  "layers": {
+    "firms": { "bbox": { "latMin": 40.3, "latMax": 40.5, "lngMin": -3.8, "lngMax": -3.6 } },
+    "copernicus": { "activation": null, "aoi": "AOI01" },
+    "aemet": { "municipio": "28079", "municipioNombre": "Madrid" }
+  },
+  "orders": {
+    "stats": [
+      { "slug": "afectados", "l": "Afectados", "cls": "fatal" }
+    ],
+    "banners": ["situacion"],
+    "advice": "consejo-oficial",
+    "zones": [],
+    "roads": [],
+    "roadDash": {},
+    "markers": ["marker-punto-de-interes"],
+    "route": null,
+    "evacZone": null,
+    "accounts": ["x-cuenta-oficial"],
+    "contacts": ["emergencias-112"],
+    "pages": ["pagina-oficial"],
+    "guides": ["antes-preparacion", "kit-de-emergencia", "si-te-sorprende-el-fuego", "evacuacion-ordenada", "despues-retorno"]
+  },
+  "sections": {
+    "riskWindow": { "secTitle": "Previsión", "secNote": "fuente de la previsión" },
+    "advice": { "secTitle": "Consejo oficial vigente", "secNote": "autoridad competente" },
+    "guides": { "secTitle": "Guía de autoprotección", "secNote": "fuentes oficiales (incendio forestal — sustituir si el incidente es otro)" }
+  },
+  "footer": {
+    "sourcesHtml": "<b>Fuentes oficiales en directo:</b> completar con las del incidente.",
+    "disclaimerHtml": "⚠️ Este panel resume información de fuentes oficiales y prensa. <b>No sustituye a las instrucciones oficiales.</b> Ante cualquier decisión real: 112."
+  }
+}
