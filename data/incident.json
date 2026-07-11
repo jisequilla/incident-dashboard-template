@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-07-11T16:32:41+02:00",
+    "updatedAt": "2026-07-11T17:14:07+02:00",
     "incidentName": "Incidente de Ejemplo (sustituir)",
     "startedAt": "2020-01-01T00:00:00+01:00",
     "liveLabel": "En seguimiento",
@@ -208,6 +208,18 @@
     ],
     "legend": [
       {
+        "color": "#ff0000",
+        "label": "Foco de calor < 6 h (FIRMS)"
+      },
+      {
+        "color": "#ff7a00",
+        "label": "Foco 6–12 h (FIRMS)"
+      },
+      {
+        "color": "#8a7a6c",
+        "label": "Foco > 12 h (FIRMS)"
+      },
+      {
         "color": "#e8531f",
         "label": "Fases estimadas (aproximado)"
       },
@@ -242,6 +254,10 @@
     ],
     "disclaimer": "Los datos aproximados están marcados como tales. Para decisiones reales sigue al 112 y a las autoridades competentes.",
     "copernicus": null,
-    "firms": null
+    "firms": {
+      "url": "./data/firms/heatspots.json",
+      "fetchedAtUtc": "2026-07-11T15:14Z",
+      "attribution": "NASA FIRMS (VIIRS/MODIS), últimas 24 h"
+    }
   }
 }

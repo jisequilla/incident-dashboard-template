@@ -1,1 +1,8 @@
-{ "copernicus": null, "firms": null }
+{
+  "copernicus": null,
+  "firms": {
+    "url": "./data/firms/heatspots.json",
+    "fetchedAtUtc": "2026-07-11T15:14Z",
+    "attribution": "NASA FIRMS (VIIRS/MODIS), últimas 24 h"
+  }
+}
