@@ -22,6 +22,8 @@ Panel ciudadano de seguimiento de un incidente. La información puede influir en
 
 `/gather-updates` (recolectar, sin tocar nada) → revisión → `/update-dashboard` (conceptos + proyección) → `/update-blog` (opcional: crónica) → `/commit` (auditoría + push = publicar). **Todo commit pasa por `/commit`** — `node scripts/audit.mjs` es la puerta, y JAMÁS se ejecuta encadenado a una tubería (enmascara el exit code).
 
+`/watch-loop` arma el ciclo de vigilancia graduado (barrido → auto-aplica solo hechos oficiales claros → cola + ntfy para lo demás). El cron vive solo en la sesión: re-armar tras cada reinicio.
+
 ## Mecánica heredada de la primera instancia (no re-aprender)
 
 - Tras editar HTML: **hard reload** (`Cmd+Shift+R`) — el JSON se auto-cachebustea; el HTML no.

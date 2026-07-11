@@ -31,7 +31,7 @@ Nacido del panel del incendio de Los Gallardos–Bédar (jul 2026): [vera-wild-f
 
 ## El flujo diario
 
-`/gather-updates` (barrido de fuentes → parte de novedades, no toca nada) → revisión humana → `/update-dashboard` (hechos como conceptos + proyección) → `/commit` (auditoría + push = publicar). El cron mantiene solo las capas de datos; **automatiza los datos, nunca el juicio**.
+`/gather-updates` (barrido de fuentes → parte de novedades, no toca nada) → revisión humana → `/update-dashboard` (hechos como conceptos + proyección) → `/commit` (auditoría + push = publicar). El cron mantiene solo las capas de datos; **automatiza los datos, nunca el juicio**. Para vigilancia continua, `/watch-loop` arma un ciclo graduado en sesión: auto-aplica solo hechos oficiales claros y deja todo lo ambiguo en cola con aviso ntfy.
 
 ## Reglas de oro (en CLAUDE.md, no negociables)
 
