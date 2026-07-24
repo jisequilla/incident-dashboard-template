@@ -1,39 +1,4 @@
 {
  "type": "FeatureCollection",
- "features": [
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -3.76303,
-     40.3194
-    ]
-   },
-   "properties": {
-    "source": "S-NPP VIIRS",
-    "acquiredUtc": "2026-07-22T12:29:00Z",
-    "frp": 0.49,
-    "confidence": "low",
-    "daynight": "D"
-   }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -3.76077,
-     40.31644
-    ]
-   },
-   "properties": {
-    "source": "S-NPP VIIRS",
-    "acquiredUtc": "2026-07-22T12:29:00Z",
-    "frp": 1.85,
-    "confidence": "low",
-    "daynight": "D"
-   }
-  }
- ]
+ "features": []
 }
