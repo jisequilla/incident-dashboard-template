@@ -19,8 +19,13 @@ Produce un **parte de novedades**: hechos nuevos con fuente, hora y nivel de con
 
 ## Fuentes, en orden
 
-1. **Deterministas primero**: `node scripts/fetch-firms.mjs` (si aplica al incidente), `fetch-copernicus.mjs` (si hay activación configurada), `fetch-aemet.mjs`. Interpretar contra la capa oficial previa; si las capas no cambiaron, no es un hecho.
-2. **Red social del incidente** (hashtag de config, búsqueda live > perfiles) — solo con la sesión del usuario en su navegador; máx. 2 intentos si falla. Solo cuentas oficiales cuentan como hechos; capturar SIEMPRE la URL del post concreto; posts truncados se abren enteros antes de citarlos.
+1. **Deterministas primero**: `node scripts/fetch-firms.mjs` (si aplica al incidente), `fetch-copernicus.mjs` (si hay activación configurada), `fetch-aemet.mjs`, `fetch-news.mjs` (titulares RSS nuevos) y `fetch-x.mjs` (perfiles oficiales). Interpretar contra la capa oficial previa; si las capas no cambiaron, no es un hecho.
+
+   **Leer el código de salida, no solo la lista.** Un barrido vacío no es lo mismo que un barrido roto: `0` hecho · `2` credenciales ausentes/caducadas · `3` formato roto · `4` backend ausente · `5` capacidad upstream desaparecida (autenticado, pero el endpoint ya no existe). Con cualquiera que no sea 0, al parte va **"no consultada"**, jamás "sin novedades".
+
+   **Y leer los avisos de techo del RSS.** Google News corta a 100 items por consulta sin decirlo; en un incidente grande ese tope se toca en 24 h y el barrido pierde titulares creyendo que los tiene todos. `fetch-news.mjs` avisa: si lo hace, estrechar las consultas antes de fiarse del ciclo.
+
+2. **Red social del incidente** — vía `fetch-x.mjs`, que lee **perfiles oficiales** (`user-posts`) y descarta retuits, porque el autor del item es la cuenta retuiteada y atribuirlo al perfil oficial falsearía la fuente. La **búsqueda por hashtag ya no es posible** (`twitter search` devuelve 404 desde jul-2026: X migró su cliente web). Eso deja fuera la capa ciudadana —prensa local, vecinos, cortes de carretera—, así que **el parte debe declarar esa ausencia**: el silencio de las cuentas oficiales no es silencio del mundo. Solo cuentas oficiales cuentan como hechos; capturar SIEMPRE la URL del post concreto; posts truncados se abren enteros antes de citarlos.
 3. **Vigilancia específica del usuario** — el interés operativo propio (su zona, su decisión pendiente). Definirla al instanciar el template y barrerla expresamente. "Nada encontrado" también es dato.
 4. **Directos de prensa** con historial en `directory/` (WebFetch, pedir SOLO lo posterior a meta.updatedAt con timestamps).
 5. **WebSearch de cierre** con la fecha real de hoy.

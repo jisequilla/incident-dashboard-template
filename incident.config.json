@@ -12,43 +12,134 @@
   "map": {
     "eyebrow": "Incidente · fecha",
     "sub": "Mapa del incidente con las capas de datos superpuestas.",
-    "center": [40.4168, -3.7038],
+    "center": [
+      40.4168,
+      -3.7038
+    ],
     "zoom": 12,
-    "fitBounds": [[40.40, -3.72], [40.43, -3.68]],
+    "fitBounds": [
+      [
+        40.4,
+        -3.72
+      ],
+      [
+        40.43,
+        -3.68
+      ]
+    ],
     "links": [
-      { "label": "Abrir la zona en Google Maps", "url": "https://www.google.com/maps/@40.4168,-3.7038,12z" }
+      {
+        "label": "Abrir la zona en Google Maps",
+        "url": "https://www.google.com/maps/@40.4168,-3.7038,12z"
+      }
     ],
     "disclaimer": "Los datos aproximados están marcados como tales. Para decisiones reales sigue al 112 y a las autoridades competentes."
   },
   "layers": {
-    "firms": { "bbox": { "latMin": 40.3, "latMax": 40.5, "lngMin": -3.8, "lngMax": -3.6 } },
-    "copernicus": { "activation": null, "aoi": "AOI01" },
-    "aemet": { "municipio": "28079", "municipioNombre": "Madrid" }
+    "firms": {
+      "bbox": {
+        "latMin": 40.3,
+        "latMax": 40.5,
+        "lngMin": -3.8,
+        "lngMax": -3.6
+      },
+      "_nota": "El bbox es una AFIRMACION DE ALCANCE, no un parametro tecnico. FIRMS entrega anomalias termicas con coordenadas, NO atribucion de incidente: un bbox amplio recoge focos de otros incendios y los mete en este panel como si fueran suyos. Acotarlo al area real y no derivar de los focos el centro del mapa (eso es una suposicion disfrazada de medicion)."
+    },
+    "copernicus": {
+      "activation": null,
+      "aoi": "AOI01"
+    },
+    "aemet": {
+      "municipio": "28079",
+      "municipioNombre": "Madrid"
+    }
   },
   "orders": {
     "stats": [
-      { "slug": "afectados", "l": "Afectados", "cls": "fatal" }
+      {
+        "slug": "afectados",
+        "l": "Afectados",
+        "cls": "fatal"
+      }
     ],
-    "banners": ["situacion"],
+    "banners": [
+      "situacion"
+    ],
     "advice": "consejo-oficial",
     "zones": [],
     "roads": [],
     "roadDash": {},
-    "markers": ["marker-punto-de-interes"],
+    "markers": [
+      "marker-punto-de-interes"
+    ],
     "route": null,
     "evacZone": null,
-    "accounts": ["x-cuenta-oficial"],
-    "contacts": ["emergencias-112"],
-    "pages": ["pagina-oficial"],
-    "guides": ["antes-preparacion", "kit-de-emergencia", "si-te-sorprende-el-fuego", "evacuacion-ordenada", "despues-retorno"]
+    "accounts": [
+      "x-cuenta-oficial"
+    ],
+    "contacts": [
+      "emergencias-112"
+    ],
+    "pages": [
+      "pagina-oficial"
+    ],
+    "guides": [
+      "antes-preparacion",
+      "kit-de-emergencia",
+      "si-te-sorprende-el-fuego",
+      "evacuacion-ordenada",
+      "despues-retorno"
+    ]
   },
   "sections": {
-    "riskWindow": { "secTitle": "Previsión", "secNote": "fuente de la previsión" },
-    "advice": { "secTitle": "Consejo oficial vigente", "secNote": "autoridad competente" },
-    "guides": { "secTitle": "Guía de autoprotección", "secNote": "fuentes oficiales (incendio forestal — sustituir si el incidente es otro)" }
+    "riskWindow": {
+      "secTitle": "Previsión",
+      "secNote": "fuente de la previsión"
+    },
+    "advice": {
+      "secTitle": "Consejo oficial vigente",
+      "secNote": "autoridad competente"
+    },
+    "guides": {
+      "secTitle": "Guía de autoprotección",
+      "secNote": "fuentes oficiales (incendio forestal — sustituir si el incidente es otro)"
+    }
   },
   "footer": {
     "sourcesHtml": "<b>Fuentes oficiales en directo:</b> completar con las del incidente.",
     "disclaimerHtml": "⚠️ Este panel resume información de fuentes oficiales y prensa. <b>No sustituye a las instrucciones oficiales.</b> Ante cualquier decisión real: 112."
+  },
+  "news": {
+    "_nota": "Ingesta RSS determinista. Consultas ESTRECHAS: Google News RSS corta a 100 items por consulta sin avisar, y en un incidente grande ese techo se toca en 24 h. fetch-news.mjs avisa cuando lo alcanza.",
+    "googleQueries": [
+      "<termino del incidente>"
+    ],
+    "feeds": [
+      {
+        "name": "<medio local>",
+        "url": "https://ejemplo.es/rss/"
+      }
+    ],
+    "matchTerms": [
+      "<localidad>"
+    ],
+    "windowHours": 36
+  },
+  "x": {
+    "_nota": "Barrido de X por PERFILES OFICIALES (user-posts), no por hashtag: twitter search devuelve 404 desde jul-2026. Credenciales FUERA del repo, cuenta secundaria de solo lectura, NUNCA en un .envrc de raiz.",
+    "accounts": [
+      "<cuenta_oficial_1>",
+      "<cuenta_oficial_2>"
+    ],
+    "controlAccount": "<cuenta_que_publica_a_diario>",
+    "excludeRetweets": true,
+    "probeSearch": true,
+    "queries": [
+      "#<HashtagDelIncidente>"
+    ],
+    "max": 40,
+    "windowHours": 36,
+    "bin": "twitter",
+    "credFile": "~/.config/<incidente>/x.env"
   }
 }

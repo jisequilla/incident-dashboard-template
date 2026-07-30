@@ -115,24 +115,33 @@ async function renderCopernicus(cfg) {
   copernicusLayers = [];
   if (!cfg) return;
   try {
+    /* Los frentes son OPCIONALES: hay productos Copernicus (DEL) que solo traen
+       área. Pedirlos incondicionalmente hacía que un linesUrl nulo reventara el
+       Promise.all y el catch se llevara por delante también el área quemada — la
+       capa principal desaparecía del mapa sin más señal que un console.error. */
     const [area, lines] = await Promise.all([
       fetch(cfg.areaUrl).then(r => r.json()),
-      fetch(cfg.linesUrl).then(r => r.json())
+      cfg.linesUrl ? fetch(cfg.linesUrl).then(r => r.json()) : null
     ]);
+    const prod = cfg.product || 'Copernicus EMS';
     const burnt = L.geoJSON(area, {
       style: { color: '#7a1200', weight: 2, fillColor: '#7a1200', fillOpacity: .32 },
       onEachFeature: (f, layer) => layer.bindPopup(
-        `<b>Área quemada (Copernicus EMSR892)</b><br>${(f.properties.area || 0).toFixed(1)} ha · ${f.properties.det_method}<br>Imagen Sentinel-2 · ${cfg.acquiredLabel}`
+        `<b>Área quemada (${prod})</b><br>${(f.properties.area || 0).toFixed(1)} ha · ${f.properties.det_method}<br>Imagen Sentinel-2 · ${cfg.acquiredLabel}`
       )
     }).addTo(map);
-    const fronts = L.geoJSON(lines, {
-      style: { color: '#ff2d00', weight: 4, opacity: .95 },
-      onEachFeature: (f, layer) => layer.bindPopup(
-        `<b>Frente de fuego (Copernicus EMSR892)</b><br>${f.properties.det_method}<br>Imagen Sentinel-2 · ${cfg.acquiredLabel}`
-      )
-    }).addTo(map);
-    copernicusLayers = [burnt, fronts];
-    overlayGroup.push(burnt, fronts);
+    copernicusLayers = [burnt];
+    overlayGroup.push(burnt);
+    if (lines) {
+      const fronts = L.geoJSON(lines, {
+        style: { color: '#ff2d00', weight: 4, opacity: .95 },
+        onEachFeature: (f, layer) => layer.bindPopup(
+          `<b>Frente de fuego (${prod})</b><br>${f.properties.det_method}<br>Imagen Sentinel-2 · ${cfg.acquiredLabel}`
+        )
+      }).addTo(map);
+      copernicusLayers.push(fronts);
+      overlayGroup.push(fronts);
+    }
   } catch (e) {
     console.error('No se pudo cargar la capa Copernicus:', e);
   }

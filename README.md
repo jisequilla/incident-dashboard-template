@@ -12,7 +12,7 @@ knowledge/incident-okf/ ← LA FUENTE DE VERDAD: bundle OKF (conceptos con fuent
 data/incident.json     ← artefacto GENERADO por el proyector — no editar a mano
 data/layers.json       ← plano-máquina de capas (satélites/meteo; lo escriben los fetch)
 index.html · map.html  ← proyecciones web (leen el JSON, polling 15 min)
-scripts/               ← proyector, gen-index, audit, fetch-firms/copernicus/aemet, notify-changes
+scripts/               ← proyector, gen-index, audit, fetch-firms/copernicus/aemet/news/x, notify-changes
 .github/workflows/     ← deploy (Pages) + cron de ingesta cada ~30 min
 .claude/skills/        ← flujo agéntico: gather → update → blog → commit (+ research, perfil OKF)
 ```
@@ -27,7 +27,8 @@ Nacido del panel del incendio de Los Gallardos–Bédar (jul 2026): [vera-wild-f
 4. **Prueba local**: `python3 -m http.server 8000` → el panel del ejemplo ya renderiza.
 5. **Publica**: `gh repo create ... --public --source . --push` → Settings → Pages → *GitHub Actions*. El primer deploy puede necesitar un re-run si corre antes de activar Pages.
 6. **Secrets opcionales** (todo degrada con gracia sin ellos): `AEMET_API_KEY` (gratuita, opendata.aemet.es) y `NTFY_TOPIC` (inventa un topic aleatorio, suscríbete en la app ntfy): `gh secret set …`. Local: `.env` (gitignored; ver `.env.example`).
-7. Si el incidente NO es un incendio forestal: sustituye los 5 conceptos de `guides/` por las recomendaciones oficiales de tu tipo de incidente (misma disciplina: solo fuentes oficiales abiertas y verificadas).
+7. **Ingesta de prensa y X** (bloques `news` y `x` de la config). El RSS funciona sin nada: pon consultas **estrechas** —Google News corta a 100 items por consulta sin avisar y en un incidente grande ese techo se toca en 24 h—. Para X hace falta `twitter-cli` (`uv tool install 'twitter-cli==0.8.5'`) y credenciales de una **cuenta secundaria de solo lectura** en el fichero que indique `x.credFile`, **fuera del repo y nunca como secret ni en un `.envrc` de raíz**: son credenciales de sesión completa. Sin ellas el barrido sale con código 2 y lo registra honestamente como "no consultada".
+8. Si el incidente NO es un incendio forestal: sustituye los 5 conceptos de `guides/` por las recomendaciones oficiales de tu tipo de incidente (misma disciplina: solo fuentes oficiales abiertas y verificadas).
 
 ## El flujo diario
 

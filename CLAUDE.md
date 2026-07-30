@@ -27,6 +27,11 @@ Panel ciudadano de seguimiento de un incidente. La información puede influir en
 ## Mecánica heredada de la primera instancia (no re-aprender)
 
 - Tras editar HTML: **hard reload** (`Cmd+Shift+R`) — el JSON se auto-cachebustea; el HTML no.
-- X/Twitter solo se lee con la sesión del usuario en el navegador; la búsqueda live del hashtag rinde más que los perfiles.
+- X/Twitter se lee con `scripts/fetch-x.mjs` sobre **perfiles oficiales** (`user-posts`). La búsqueda por hashtag rendía más —capturaba prensa local, vecinos y cortes de carretera— pero **devuelve 404 desde jul-2026**: X migró su cliente web y ya no sirve el bundle del que se derivaba la cabecera `X-Client-Transaction-Id`. El script sondea `search` en cada ciclo para avisar si revive.
+- **Credenciales de X fuera del repo** (`credFile`), cuenta secundaria de solo lectura, **nunca** en un `.envrc` de raíz — direnv las inyectaría en todo proceso lanzado ahí. El barrido lanza el hijo con `HOME` en un directorio vacío a propósito: con la sesión caducada, `twitter-cli` re-extrae cookies del navegador real y saltaría en silencio a la cuenta principal.
+- **Fallo ausente ≠ fallo silencioso.** Los fetch distinguen por código de salida (2 credenciales · 3 formato · 4 backend ausente · **5 capacidad upstream desaparecida**). Un barrido vacío que parece "no hay novedad" es peor que un error. `--dry` valida el contrato contra un fixture: **no** es señal de que la ingesta funcione.
+- **Una capa opcional nunca debe poder tumbar a la obligatoria.** El perímetro oficial del mapa estuvo 18 días sin pintarse porque área y frentes se pedían en un mismo `Promise.all` y un `linesUrl` nulo hacía que el 404 se llevara ambas. Verificar el render **contando elementos y leyendo la consola**, no mirando si "se ve bien".
+- **El bbox de FIRMS es una afirmación de alcance, no un parámetro.** El satélite entrega anomalías térmicas, no atribución de incidente: un bbox amplio mete focos de otros incendios. Y no derivar de esos focos el centro del mapa — es una suposición disfrazada de medición.
 - `fetch()` no funciona sobre `file://`: servir con `python3 -m http.server`.
 - Nunca `git add -A` a ciegas: leer `git status` antes (los worktrees de agentes se cuelan como gitlinks).
+- El audit **solo**, jamás encadenado con `|`: la tubería enmascara el exit code y el `&&` sigue con la auditoría en rojo. Ya publicó un timestamp futuro una vez.

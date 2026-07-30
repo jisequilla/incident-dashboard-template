@@ -37,7 +37,9 @@ Consume hechos verificados (del parte de `/gather-updates` o dados por el usuari
 2. Servidor vivo: `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8471/index.html` (si no, `python3 -m http.server 8471 &`).
 3. Navegador (pestaña del grupo MCP): recargar `index.html` y `map.html`. **Si se tocó HTML: hard reload (`cmd+shift+r`)** — la caché ya nos escondió una capa entera.
 4. Comprobar con `javascript_tool`: `updatedStamp` refleja la hora nueva; nº de eventos; si se tocó el mapa, contar `path.leaflet-interactive` y capas (`copernicusLayers.length`, `firmsLayer.getLayers().length`).
-5. Screenshot para el usuario si el cambio es visual.
+5. **Leer la consola** (`read_console_messages`, `onlyErrors`). No es opcional: comprobar campos del JSON en la página deja pasar una capa que no se pinta — el dato puede estar bien en disco, bien en `layers.json`, bien al hacer `fetch`, y ausente en pantalla. En la primera instancia el perímetro oficial estuvo **18 días sin dibujarse** y lo único que lo delataba era un `console.error`.
+6. **Contar, no mirar.** Once polígonos donde debería haber cientos es una capa entera desaparecida, y a ojo el mapa "se ve bien". `document.querySelectorAll('path.leaflet-interactive').length` es la comprobación barata que lo caza.
+7. Screenshot para el usuario si el cambio es visual.
 
 ## Al terminar
 

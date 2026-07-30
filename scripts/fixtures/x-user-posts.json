@@ -1,0 +1,113 @@
+{
+ "_anchorNow": "2026-07-29T20:30:00+02:00",
+ "_nota": "Fixture del contrato de fetch-x.mjs con salida REAL de `twitter user-posts` (capturada de @Plan_INFOCA y @E112Andalucia el 29-jul-2026). Los dos primeros items y el retuit son reales; el resto son variantes rotas para ejercer cada rama de validación. Con este ancla se esperan 2 tuits frescos y 8 descartes; el resto cae por dedupe o por ventana.",
+ "items": [
+  {
+   "_caso": "REAL · válido",
+   "id": "2082527366836895793",
+   "text": "🗓️ 29/07/2026  🕗 19.45  h.\n\n🔴 ACTUALIZACIÓN #IFHornachuelos #Cordoba.\nAmpliamos el operativo en intervención.\n\nMEDIOS:\n🚁 1 ligero, 1 semipesado\n🛩️ 2 carga en tierra\n👩‍🚒 18 efectivos por tierra\n🚒 1 autobomba https://t.co/uf4Uylmgyg",
+   "author": { "id": "1119309054", "name": "EMA INFOCA", "screenName": "Plan_INFOCA", "verified": false },
+   "metrics": { "likes": 1, "retweets": 1, "replies": 0, "views": 608 },
+   "createdAt": "Wed Jul 29 18:03:10 +0000 2026",
+   "createdAtLocal": "2026-07-29 20:03",
+   "createdAtISO": "2026-07-29T18:03:10+00:00",
+   "media": [{ "type": "photo", "url": "https://pbs.twimg.com/media/HOafmgFXAAAedUj.jpg", "width": 640, "height": 640 }],
+   "urls": [],
+   "isRetweet": false,
+   "retweetedBy": null,
+   "lang": "es",
+   "score": null
+  },
+  {
+   "_caso": "REAL · válido",
+   "id": "2082519653943775552",
+   "text": "🗓️ 29/07/2026  🕗 17.19  h.\n\n🔴 DECLARADO | Incendio en #Hornachuelos #Cordoba\n📌 #IFHornachuelos, en carretera CO-5312.\n\nMEDIOS:\n🛩️ 2 carga en tierra\n👩‍🚒 10 efectivos por tierra\n🚒 1 autobomba https://t.co/i98WaDZ80X",
+   "author": { "id": "1119309054", "name": "EMA INFOCA", "screenName": "Plan_INFOCA", "verified": false },
+   "metrics": { "likes": 9, "retweets": 6, "replies": 0, "views": 2229 },
+   "createdAt": "Wed Jul 29 15:27:00 +0000 2026",
+   "createdAtISO": "2026-07-29T15:27:00+00:00",
+   "isRetweet": false,
+   "retweetedBy": null,
+   "lang": "es"
+  },
+  {
+   "_caso": "REAL · descarte por retuit — `author` es el autor original (cuenta personal), no la cuenta oficial que retuitea: sin este filtro se atribuiría a @antoniosanz como si fuera declaración del 112",
+   "id": "2082500000000000001",
+   "text": "Seguimos de cerca la evolución de los incendios activos en Andalucía.",
+   "author": { "id": "222", "name": "Antonio Sanz", "screenName": "antoniosanz", "verified": true },
+   "createdAtISO": "2026-07-29T17:10:00+00:00",
+   "isRetweet": true,
+   "retweetedBy": "E112Andalucia",
+   "lang": "es"
+  },
+  {
+   "_caso": "duplicado del primero · debe deduplicarse por permalink construido",
+   "id": "2082527366836895793",
+   "text": "🔴 ACTUALIZACIÓN #IFHornachuelos (mismo tuit, otra pasada del barrido)",
+   "author": { "screenName": "Plan_INFOCA" },
+   "createdAtISO": "2026-07-29T18:03:10+00:00",
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · sin id (no se puede construir permalink)",
+   "text": "Se ve humo otra vez desde Vera Playa",
+   "author": { "screenName": "E112Andalucia" },
+   "createdAtISO": "2026-07-29T18:00:00+00:00",
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · id no numérico (no rinde una URL de status válida)",
+   "id": "no-es-un-id",
+   "text": "Identificador corrupto",
+   "author": { "screenName": "Plan_INFOCA" },
+   "createdAtISO": "2026-07-29T18:00:00+00:00",
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · sin autor (sin handle no hay permalink ni atribución)",
+   "id": "2082500000000000003",
+   "text": "Texto sin autor atribuible",
+   "createdAtISO": "2026-07-29T18:00:00+00:00",
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · texto vacío",
+   "id": "2082500000000000004",
+   "text": "",
+   "author": { "screenName": "Plan_INFOCA" },
+   "createdAtISO": "2026-07-29T18:00:00+00:00",
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · sin timestamp",
+   "id": "2082500000000000005",
+   "text": "Parte sin hora",
+   "author": { "screenName": "Plan_INFOCA" },
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · timestamp ilegible",
+   "id": "2082500000000000006",
+   "text": "Parte con hora en prosa",
+   "author": { "screenName": "Plan_INFOCA" },
+   "createdAtISO": "ayer por la tarde",
+   "isRetweet": false
+  },
+  {
+   "_caso": "descarte · timestamp FUTURO (invariante 4: la lección del evento estampado a las 09:00 siendo las 05:44)",
+   "id": "2082500000000000007",
+   "text": "Parte fechado en el futuro respecto al ancla",
+   "author": { "screenName": "Plan_INFOCA" },
+   "createdAtISO": "2026-07-29T21:00:00+00:00",
+   "isRetweet": false
+  },
+  {
+   "_caso": "válido pero fuera de la ventana de 36 h · se filtra sin contar como descarte",
+   "id": "2082500000000000008",
+   "text": "Parte antiguo, anterior a la ventana",
+   "author": { "screenName": "Plan_INFOCA" },
+   "createdAtISO": "2026-07-27T10:00:00+00:00",
+   "isRetweet": false
+  }
+ ]
+}
