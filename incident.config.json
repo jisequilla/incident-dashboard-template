@@ -125,6 +125,22 @@
     ],
     "windowHours": 36
   },
+  "boja": {
+    "_nota": "Vigía del boletín oficial (fetch-boja.mjs → fetch-boja.py con Scrapling vía uv). El BOJA es Solr tras un GET plano; para otra comunidad (BOCM, DOGC, BOE) se reescribe fetch-boja.py manteniendo el contrato JSON. El buscador hace stemming (un topónimo≈un apellido) y su multi-término no es fiable: consultas de UNA palabra o frase entrecomillada, ventana de fechas, y la relevancia la deciden los filterPatterns en cliente. Varias consultas porque un decreto de ayudas puede no nombrar al municipio.",
+    "queries": [
+      "\"<municipio>\"",
+      "incendio"
+    ],
+    "controlQuery": "decreto",
+    "startDate": "<YYYY-MM-DD de inicio del incidente>",
+    "filterPatterns": [
+      "\\b<municipio>\\b",
+      "incendio[^()]{0,80}<provincia-raiz>",
+      "luto oficial"
+    ],
+    "maxPages": 5,
+    "bin": "uv"
+  },
   "x": {
     "_nota": "Barrido de X por PERFILES OFICIALES (user-posts), no por hashtag: twitter search devuelve 404 desde jul-2026. Credenciales FUERA del repo, cuenta secundaria de solo lectura, NUNCA en un .envrc de raiz.",
     "accounts": [

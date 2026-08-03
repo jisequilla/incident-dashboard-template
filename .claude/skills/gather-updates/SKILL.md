@@ -19,7 +19,7 @@ Produce un **parte de novedades**: hechos nuevos con fuente, hora y nivel de con
 
 ## Fuentes, en orden
 
-1. **Deterministas primero**: `node scripts/fetch-firms.mjs` (si aplica al incidente), `fetch-copernicus.mjs` (si hay activación configurada), `fetch-aemet.mjs`, `fetch-news.mjs` (titulares RSS nuevos) y `fetch-x.mjs` (perfiles oficiales). Interpretar contra la capa oficial previa; si las capas no cambiaron, no es un hecho.
+1. **Deterministas primero**: `node scripts/fetch-firms.mjs` (si aplica al incidente), `fetch-copernicus.mjs` (si hay activación configurada), `fetch-aemet.mjs`, `fetch-news.mjs` (titulares RSS nuevos), `fetch-x.mjs` (perfiles oficiales) y `fetch-boja.mjs` (boletín oficial — el expediente post-incidente: ayudas, decretos, luto; su "sin novedades" siempre viene con recuento de escaneadas/filtradas). Interpretar contra la capa oficial previa; si las capas no cambiaron, no es un hecho.
 
    **Leer el código de salida, no solo la lista.** Un barrido vacío no es lo mismo que un barrido roto: `0` hecho · `2` credenciales ausentes/caducadas · `3` formato roto · `4` backend ausente · `5` capacidad upstream desaparecida (autenticado, pero el endpoint ya no existe). Con cualquiera que no sea 0, al parte va **"no consultada"**, jamás "sin novedades".
 

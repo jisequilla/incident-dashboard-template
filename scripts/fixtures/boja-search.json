@@ -1,0 +1,47 @@
+{
+  "_comment": "Salida del hijo fetch-boja.py capturada de un barrido real (03-ago-2026) y recortada. Contiene: 1 item relevante (luto oficial), ruido de stemming (apellido Gallardo — debe caer por filterPatterns), 1 sin enlace (assert) y 1 con fecha futura respecto al ancla (invariante 4). El --dry valida el contrato del padre Node, NO que la ingesta viva funcione.",
+  "_anchorToday": "2026-08-03",
+  "payload": {
+    "ok": true,
+    "queries": [
+      {
+        "q": "\"Los Gallardos\"",
+        "total": 23,
+        "scanned": 23,
+        "items": [
+          {
+            "text": "Decreto del Presidente 11/2026, de 10 de julio, por el que se declara luto oficial en la Comunidad Autónoma de Andalucía por las personas fallecidas en el incendio declarado en el municipio almeriense de Los Gallardos. Organismo: Presidencia (Boletín número 513 de 11/07/2026 Sección: 1. Disposiciones generales)",
+            "link": "http://www.juntadeandalucia.es/boja/2026/513/1"
+          },
+          {
+            "text": "Decreto 330/2026, de 30 de julio, por el que se dispone el cese de doña Inmaculada Gallardo Pinto como Delegada Territorial de Sostenibilidad, Medio Ambiente y Economía Azul en Sevilla. Organismo: Consejería de Sostenibilidad (Boletín número 517 de 30/07/2026 Sección: 2. Autoridades y personal)",
+            "link": "http://www.juntadeandalucia.es/boja/2026/517/130"
+          },
+          {
+            "text": "Resolución fantasma sin enlace que el buscador devolvió mal renderizada. Organismo: Otros (Boletín número 514 de 12/07/2026 Sección: 5. Anuncios)",
+            "link": null
+          },
+          {
+            "text": "Orden de fecha imposible sobre ayudas por el incendio de Los Gallardos. Organismo: Presidencia (Boletín número 999 de 24/12/2026 Sección: 1. Disposiciones generales)",
+            "link": "http://www.juntadeandalucia.es/boja/2026/999/1"
+          }
+        ]
+      },
+      {
+        "q": "incendio forestal Almería",
+        "total": 41,
+        "scanned": 41,
+        "items": [
+          {
+            "text": "Decreto del Presidente 11/2026, de 10 de julio, por el que se declara luto oficial en la Comunidad Autónoma de Andalucía por las personas fallecidas en el incendio declarado en el municipio almeriense de Los Gallardos. Organismo: Presidencia (Boletín número 513 de 11/07/2026 Sección: 1. Disposiciones generales)",
+            "link": "http://www.juntadeandalucia.es/boja/2026/513/1"
+          },
+          {
+            "text": "Resolución de 24 de julio de 2026, de la Agencia Andaluza de la Energía, por la que se hace pública la relación de subvenciones concedidas al amparo de la resolución que se cita. Organismo: Consejería de Universidad, Industria e Innovación (Boletín número 145 de 29/07/2026 Sección: 3. Otras disposiciones)",
+            "link": "http://www.juntadeandalucia.es/boja/2026/145/50"
+          }
+        ]
+      }
+    ]
+  }
+}
