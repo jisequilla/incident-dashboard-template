@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-08-04T05:34:12+02:00",
+    "updatedAt": "2026-08-05T09:23:10+02:00",
     "incidentName": "Incidente de Ejemplo (sustituir)",
     "startedAt": "2020-01-01T00:00:00+01:00",
     "liveLabel": "En seguimiento",
@@ -256,7 +256,7 @@
     "copernicus": null,
     "firms": {
       "url": "./data/firms/heatspots.json",
-      "fetchedAtUtc": "2026-08-04T03:34Z",
+      "fetchedAtUtc": "2026-08-05T07:23Z",
       "attribution": "NASA FIRMS (VIIRS/MODIS), últimas 24 h"
     }
   }
