@@ -1,4 +1,73 @@
 {
  "type": "FeatureCollection",
- "features": []
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.62555,
+     40.43513
+    ]
+   },
+   "properties": {
+    "source": "NOAA-20 VIIRS",
+    "acquiredUtc": "2026-08-30T13:59:00Z",
+    "frp": 3.22,
+    "confidence": "nominal",
+    "daynight": "D"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.70545,
+     40.36099
+    ]
+   },
+   "properties": {
+    "source": "NOAA-21 VIIRS",
+    "acquiredUtc": "2026-08-30T13:04:00Z",
+    "frp": 4.29,
+    "confidence": "low",
+    "daynight": "D"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.71002,
+     40.36023
+    ]
+   },
+   "properties": {
+    "source": "NOAA-21 VIIRS",
+    "acquiredUtc": "2026-08-30T13:04:00Z",
+    "frp": 4.29,
+    "confidence": "low",
+    "daynight": "D"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.77777,
+     40.39228
+    ]
+   },
+   "properties": {
+    "source": "NOAA-21 VIIRS",
+    "acquiredUtc": "2026-08-29T13:23:00Z",
+    "frp": 2.2,
+    "confidence": "nominal",
+    "daynight": "D"
+   }
+  }
+ ]
 }
