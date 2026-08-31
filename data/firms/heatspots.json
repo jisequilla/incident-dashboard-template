@@ -51,23 +51,6 @@
     "confidence": "low",
     "daynight": "D"
    }
-  },
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -3.77777,
-     40.39228
-    ]
-   },
-   "properties": {
-    "source": "NOAA-21 VIIRS",
-    "acquiredUtc": "2026-08-29T13:23:00Z",
-    "frp": 2.2,
-    "confidence": "nominal",
-    "daynight": "D"
-   }
   }
  ]
 }
