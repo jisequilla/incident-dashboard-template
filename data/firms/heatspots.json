@@ -1,4 +1,22 @@
 {
  "type": "FeatureCollection",
- "features": []
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.75602,
+     40.3048
+    ]
+   },
+   "properties": {
+    "source": "NOAA-20 VIIRS",
+    "acquiredUtc": "2026-09-12T13:16:00Z",
+    "frp": 1.6,
+    "confidence": "low",
+    "daynight": "D"
+   }
+  }
+ ]
 }
