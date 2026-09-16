@@ -1,4 +1,22 @@
 {
  "type": "FeatureCollection",
- "features": []
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.75557,
+     40.30408
+    ]
+   },
+   "properties": {
+    "source": "S-NPP VIIRS",
+    "acquiredUtc": "2026-09-16T13:23:00Z",
+    "frp": 4.02,
+    "confidence": "nominal",
+    "daynight": "D"
+   }
+  }
+ ]
 }
