@@ -6,6 +6,23 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
+     -3.60815,
+     40.44387
+    ]
+   },
+   "properties": {
+    "source": "NOAA-21 VIIRS",
+    "acquiredUtc": "2026-09-21T12:53:00Z",
+    "frp": 4.02,
+    "confidence": "low",
+    "daynight": "D"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
      -3.7556,
      40.30302
     ]
